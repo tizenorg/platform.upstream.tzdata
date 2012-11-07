@@ -1,0 +1,6 @@
+* Fri Mar 22 2013 Anas Nashif <anas.nashif@intel.com> upstream/2012e@c4cd0c4
+- Fixed package groups
+
+* Mon Feb 25 2013 Patrick McCarty <patrick.mccarty@linux.intel.com> upstream/2012e@db3d9a9
+- (TZPC-1000) Reference $ZONE instead of $TIMEZONE in the %post section
+

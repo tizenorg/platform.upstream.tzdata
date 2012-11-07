@@ -458,6 +458,7 @@ date:		$(DATEOBJS)
 tzselect:	tzselect.ksh
 		sed \
 			-e 's|#!/bin/bash|#!$(KSHELL)|g' \
+			-e 's|#! /bin/ksh|#! /bin/sh|g' \
 			-e 's|AWK=[^}]*|AWK=$(AWK)|g' \
 			-e 's|\(PKGVERSION\)=.*|\1='\''($(PACKAGE)) '\''|' \
 			-e 's|\(REPORT_BUGS_TO\)=.*|\1=$(BUGEMAIL)|' \
