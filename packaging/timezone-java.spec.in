@@ -1,0 +1,64 @@
+#
+# spec file for package timezone-java (Version 2008h)
+#
+# Copyright (c) 2008 SUSE LINUX Products GmbH, Nuernberg, Germany.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
+# Please submit bugfixes or comments via http://bugs.opensuse.org/
+#
+
+# norootforbuild
+
+
+Name:           timezone-java
+BuildRequires:  fastjar gcc-gij javazic
+License:        BSD-3-Clause and SUSE-Public-Domain
+Summary:        Timezone Descriptions
+Group:          System/Base
+# COMMON-BEGIN
+# COMMON-END
+Url:            http://www.gnu.org/software/libc/libc.html
+PreReq:         filesystem, coreutils
+BuildArch:      noarch
+Provides:       tzdata-java = %{version}-%{release}
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+
+%description
+These are configuration files that describe available time zones - this
+package is intended for Java Virtual Machine based on OpenJDK.
+
+
+
+%prep
+%setup -c  -a 1
+# COMMON-PREP-BEGIN
+# COMMON-PREP-END
+
+%build
+gij -jar %{_javadir}/javazic.jar -V %{version} \
+    -d javazi \
+    africa antarctica asia australasia europe northamerica pacificnew \
+    southamerica backward etcetera solar87 solar88 solar89 systemv  \
+    %{_datadir}/javazic/tzdata_jdk/gmt \
+    %{_datadir}/javazic/tzdata_jdk/jdk11_backward
+
+%install
+install -d -m 0755 $RPM_BUILD_ROOT/%{_datadir}
+cp -a javazi $RPM_BUILD_ROOT%{_datadir}
+
+%files
+%defattr(-,root,root)
+%{_datadir}/javazi
+
+%changelog
+* Mon Sep 29 2008 mvyskocil@suse.cz
+- Moved the timezone-java to separate specfile (adrian's request for better
+  bootstrapping of SUSE)
