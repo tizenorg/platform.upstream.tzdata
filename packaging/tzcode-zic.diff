@@ -1,0 +1,15 @@
+Index: zic.c
+===================================================================
+--- zic.c.orig
++++ zic.c
+@@ -665,8 +665,10 @@ const char * const	tofield;
+ 					fromname);
+ 				result = symlink(symlinkcontents,
+ 					toname);
++#if 0
+ 				if (result == 0)
+ warning(_("hard link failed, symbolic link used"));
++#endif
+ 				ifree(symlinkcontents);
+ 		}
+ #endif /* HAVE_SYMLINK */

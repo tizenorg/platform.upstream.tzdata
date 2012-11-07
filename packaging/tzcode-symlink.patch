@@ -1,0 +1,66 @@
+Index: timezone-2012e/zic.c
+===================================================================
+--- timezone-2012e.orig/zic.c
++++ timezone-2012e/zic.c
+@@ -113,7 +113,7 @@ static void	associate(void);
+ static int	ciequal(const char * ap, const char * bp);
+ static void	convert(long val, char * buf);
+ static void	convert64(zic_t val, char * buf);
+-static void	dolink(const char * fromfield, const char * tofield);
++static void	dolink(const char * fromfield, const char * tofield, int defaultsymlink);
+ static void	doabbr(char * abbr, const char * format,
+ 			const char * letters, int isdst, int doquotes);
+ static void	eat(const char * name, int num);
+@@ -595,7 +595,7 @@ _("%s: More than one -L option specified
+ 	*/
+ 	for (i = 0; i < nlinks; ++i) {
+ 		eat(links[i].l_filename, links[i].l_linenum);
+-		dolink(links[i].l_from, links[i].l_to);
++		dolink(links[i].l_from, links[i].l_to, FALSE);
+ 		if (noise)
+ 			for (j = 0; j < nlinks; ++j)
+ 				if (strcmp(links[i].l_to,
+@@ -604,19 +604,20 @@ _("%s: More than one -L option specified
+ 	}
+ 	if (lcltime != NULL) {
+ 		eat("command line", 1);
+-		dolink(lcltime, TZDEFAULT);
++		dolink(lcltime, TZDEFAULT,TRUE);
+ 	}
+ 	if (psxrules != NULL) {
+ 		eat("command line", 1);
+-		dolink(psxrules, TZDEFRULES);
++		dolink(psxrules, TZDEFRULES,FALSE);
+ 	}
+ 	return (errors == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+ }
+ 
+ static void
+-dolink(fromfield, tofield)
++dolink(fromfield, tofield, defaultsymlink)
+ const char * const	fromfield;
+ const char * const	tofield;
++const int		defaultsymlink;
+ {
+ 	register char *	fromname;
+ 	register char *	toname;
+@@ -641,15 +642,16 @@ const char * const	tofield;
+ 	*/
+ 	if (!itsdir(toname))
+ 		(void) remove(toname);
+-	if (link(fromname, toname) != 0) {
++	if (defaultsymlink || link(fromname, toname) != 0) {
+ 		int	result;
+ 
+ 		if (mkdirs(toname) != 0)
+ 			exit(EXIT_FAILURE);
+ 
+-		result = link(fromname, toname);
++		if (!defaultsymlink)
++			result = link(fromname, toname);
+ #if HAVE_SYMLINK
+-		if (result != 0 &&
++		if ((defaultsymlink || (!defaultsymlink && result != 0)) &&
+ 			access(fromname, F_OK) == 0 &&
+ 			!itsdir(fromname)) {
+ 				const char *s = tofield;
