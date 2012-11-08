@@ -9,12 +9,6 @@ Version:        2012e
 Release:        0
 Source:         ftp://ftp.iana.org/tz/releases/tzdata%{version}.tar.gz
 Source1:        ftp://ftp.iana.org/tz/releases/tzcode%{version}.tar.gz
-Patch0:         tzdata-china.diff
-Patch1:         tzcode-zic.diff
-Patch2:         tzcode-ksh.diff
-Patch3:         iso3166-uk.diff
-Patch4:         tzcode-link.diff
-Patch5:         tzcode-symlink.patch
 Provides:	timezone
 # COMMON-END
 %global AREA    Etc
@@ -29,15 +23,6 @@ can select an appropriate time zone for your system with YaST.
 %prep
 %setup -c -a 1
 # COMMON-PREP-BEGIN
-%patch0
-%patch1
-%patch2
-%patch3
-%if 0%{?suse_version} < 1220
-%patch4
-%else
-%patch5 -p1
-%endif
 # COMMON-PREP-END
 
 %build
