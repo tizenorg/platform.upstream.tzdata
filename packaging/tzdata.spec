@@ -8,7 +8,6 @@ Requires(pre):         filesystem, coreutils
 Version:        2012e
 Release:        0
 Source:         ftp://ftp.iana.org/tz/releases/tzdata%{version}.tar.gz
-Source1:        ftp://ftp.iana.org/tz/releases/tzcode%{version}.tar.gz
 Provides:	timezone
 # COMMON-END
 %global AREA    Etc
