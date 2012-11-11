@@ -21,7 +21,7 @@ can select an appropriate time zone for your system with YaST.
 
 
 %prep
-%setup -c -a 1
+%setup -c 
 # COMMON-PREP-BEGIN
 # COMMON-PREP-END
 
