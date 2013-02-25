@@ -59,9 +59,9 @@ rm -rf %{buildroot}
 if [ -f /etc/sysconfig/clock ];
 then
     . /etc/sysconfig/clock
-    if [ -n "$TIMEZONE" -a -f /etc/localtime -a -f /usr/share/zoneinfo/$TIMEZONE ]; then
+    if [ -n "$ZONE" -a -f /etc/localtime -a -f /usr/share/zoneinfo/$ZONE ]; then
 	new=$(mktemp /etc/localtime.XXXXXXXX) || exit 1
-	cp -l /usr/share/zoneinfo/$TIMEZONE $new 2>/dev/null || cp -fp /usr/share/zoneinfo/$TIMEZONE $new
+	cp -l /usr/share/zoneinfo/$ZONE $new 2>/dev/null || cp -fp /usr/share/zoneinfo/$ZONE $new
 	mv -f $new /etc/localtime
     else
 	[ ! -f /etc/localtime ] || echo "WARNING: Not updating /etc/localtime with new zone file" >&2
