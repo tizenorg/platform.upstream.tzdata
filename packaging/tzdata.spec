@@ -1,7 +1,7 @@
 Name:           tzdata
 Summary:        Timezone Descriptions
 License:        BSD-3-Clause and SUSE-Public-Domain
-Group:          System/Base
+Group:          Base/Configuration
 Url:            http://www.gnu.org/software/libc/libc.html
 Requires(pre):         filesystem, coreutils
 # COMMON-BEGIN
