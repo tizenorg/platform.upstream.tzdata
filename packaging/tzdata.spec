@@ -8,6 +8,7 @@ Requires(pre):         filesystem, coreutils
 Version:        2012e
 Release:        0
 Source:         ftp://ftp.iana.org/tz/releases/tzdata%{version}.tar.gz
+Source1001: 	tzdata.manifest
 Provides:	timezone
 # COMMON-END
 %global AREA    Etc
@@ -21,6 +22,7 @@ can select an appropriate time zone for your system with YaST.
 
 %prep
 %setup -c 
+cp %{SOURCE1001} .
 # COMMON-PREP-BEGIN
 # COMMON-PREP-END
 
@@ -69,6 +71,7 @@ then
 fi
 
 %files
+%manifest %{name}.manifest
 %defattr(-,root,root)
 %verify(not link md5 size mtime) %config(missingok,noreplace) /etc/localtime
 %verify(not link md5 size mtime) %config(missingok,noreplace) %{_prefix}/share/zoneinfo/posixrules
