@@ -5,11 +5,11 @@ Group:          Base/Configuration
 Url:            http://www.gnu.org/software/libc/libc.html
 Requires(pre):         filesystem, coreutils
 # COMMON-BEGIN
-Version:        2012e
+Version:        2014h
 Release:        0
 Source:         ftp://ftp.iana.org/tz/releases/tzdata%{version}.tar.gz
-Source1001: 	tzdata.manifest
-Provides:	timezone
+Source1001:     tzdata.manifest
+Provides:       timezone
 # COMMON-END
 %global AREA    Etc
 %global ZONE    UTC
@@ -33,8 +33,8 @@ LC_ALL=POSIX
 AREA=%{AREA}
 ZONE=%{ZONE}
 export AREA LANG LC_ALL ZONE
-make %{?_smp_mflags} TZDIR=%{_prefix}/share/zoneinfo CFLAGS="$RPM_OPT_FLAGS -DHAVE_GETTEXT=1 -DTZDEFAULT='\"/etc/localtime\"'" AWK=awk
-make %{?_smp_mflags} TZDIR=zoneinfo AWK=awk zones
+%__make %{?_smp_mflags} TZDIR=%{_prefix}/share/zoneinfo CFLAGS="$RPM_OPT_FLAGS -DHAVE_GETTEXT=1 -DTZDEFAULT='\"/etc/localtime\"'" AWK=awk
+%__make %{?_smp_mflags} TZDIR=zoneinfo AWK=awk zones
 # Generate posixrules
 ./zic -y ./yearistype -d zoneinfo -p %{AREA}/%{ZONE}
 
@@ -62,22 +62,20 @@ if [ -f /etc/sysconfig/clock ];
 then
     . /etc/sysconfig/clock
     if [ -n "$ZONE" -a -f /etc/localtime -a -f /usr/share/zoneinfo/$ZONE ]; then
-	new=$(mktemp /etc/localtime.XXXXXXXX) || exit 1
-	cp -l /usr/share/zoneinfo/$ZONE $new 2>/dev/null || cp -fp /usr/share/zoneinfo/$ZONE $new
-	mv -f $new /etc/localtime
+        new=$(mktemp /etc/localtime.XXXXXXXX) || exit 1
+        cp -l /usr/share/zoneinfo/$ZONE $new 2>/dev/null || cp -fp /usr/share/zoneinfo/$ZONE $new
+        mv -f $new /etc/localtime
     else
-	[ ! -f /etc/localtime ] || echo "WARNING: Not updating /etc/localtime with new zone file" >&2
+        [ ! -f /etc/localtime ] || echo "WARNING: Not updating /etc/localtime with new zone file" >&2
     fi
 fi
 
 %files
 %manifest %{name}.manifest
 %defattr(-,root,root)
-%verify(not link md5 size mtime) %config(missingok,noreplace) /etc/localtime
+%verify(not link md5 size mtime) %config(missingok,noreplace) %{_sysconfdir}/localtime
 %verify(not link md5 size mtime) %config(missingok,noreplace) %{_prefix}/share/zoneinfo/posixrules
 %{_prefix}/share/zoneinfo
 %{_bindir}/tzselect
 %{_sbindir}/zdump
 %{_sbindir}/zic
-
-%changelog
