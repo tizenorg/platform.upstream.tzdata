@@ -5,7 +5,7 @@ Group:          Base/Configuration
 Url:            http://www.gnu.org/software/libc/libc.html
 Requires(pre):         filesystem, coreutils
 # COMMON-BEGIN
-Version:        2014h
+Version:        2015g
 Release:        0
 Source:         ftp://ftp.iana.org/tz/releases/tzdata%{version}.tar.gz
 Source1001:     tzdata.manifest
