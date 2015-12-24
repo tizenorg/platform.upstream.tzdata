@@ -1,6 +1,6 @@
 Name:           tzdata
 Summary:        Timezone Descriptions
-License:        BSD-3-Clause and SUSE-Public-Domain
+License:        PD
 Group:          Base/Configuration
 Url:            http://www.gnu.org/software/libc/libc.html
 Requires(pre):         filesystem, coreutils
@@ -21,7 +21,7 @@ can select an appropriate time zone for your system with YaST.
 
 
 %prep
-%setup -c 
+%setup -c
 cp %{SOURCE1001} .
 # COMMON-PREP-BEGIN
 # COMMON-PREP-END
