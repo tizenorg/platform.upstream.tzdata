@@ -36,7 +36,7 @@ LC_ALL=POSIX
 AREA=%{AREA}
 ZONE=%{ZONE}
 export AREA LANG LC_ALL ZONE
-%__make %{?_smp_mflags} TZDIR=%{_prefix}/share/zoneinfo CFLAGS="$RPM_OPT_FLAGS -DHAVE_GETTEXT=1 -DTZDEFAULT='\"/etc/localtime\"'" AWK=awk
+%__make %{?_smp_mflags} TZDIR=%{_prefix}/share/zoneinfo CFLAGS="$RPM_OPT_FLAGS -fvisibility=hidden -DHAVE_GETTEXT=1 -DTZDEFAULT='\"/etc/localtime\"'" AWK=awk
 %__make %{?_smp_mflags} TZDIR=zoneinfo AWK=awk zones
 # Generate posixrules
 ./zic -y ./yearistype -d zoneinfo -p %{AREA}/%{ZONE}
