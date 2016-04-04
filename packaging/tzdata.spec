@@ -27,6 +27,9 @@ cp %{SOURCE1001} .
 # COMMON-PREP-END
 
 %build
+export CFLAGS+=" -fvisibility=hidden"
+  export CXXFLAGS+=" -fvisibility=hidden"
+  
 unset ${!LC_*}
 LANG=POSIX
 LC_ALL=POSIX
